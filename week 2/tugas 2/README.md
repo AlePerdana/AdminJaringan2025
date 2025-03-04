@@ -615,4 +615,3 @@ yum adalah manajer paket untuk sistem Linux yang kompatibel dengan RPM. Ini adal
 
 ### Konfigurasi dan Lokalisasi Perangkat Lunak
 Mengadaptasi sistem ke lingkungan lokal (atau cloud) Anda adalah salah satu tantangan utama dalam administrasi sistem. Menangani masalah lokalisasi dengan cara yang terstruktur dan dapat direproduksi membantu menghindari terciptanya sistem "snowflake" yang sulit dipulihkan setelah insiden besar.
-
