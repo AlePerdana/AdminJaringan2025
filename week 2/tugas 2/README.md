@@ -47,6 +47,12 @@
   - [Access Control Lists (ACLs)](#access-control-lists-acls)
   - [POSIX ACLs: ACL tradisional Unix, didukung oleh Linux, FreeBSD, dan Solaris.](#posix-acls-acl-tradisional-unix-didukung-oleh-linux-freebsd-dan-solaris)
   - [NFSv4 ACLs](#nfsv4-acls)
+- [Bab 6: Instalasi dan Manajemen Perangkat lunak](#bab-6-instalasi-dan-manajemen-perangkat-lunak)
+  - [Instalasi Sistem operasi](#instalasi-sistem-operasi)
+  - [Instalasi dari Jaringan](#instalasi-dari-jaringan)
+  - [Linux Package Management Systems](#linux-package-management-systems)
+  - [High-Level Package Management](#high-level-package-management)
+  - [Konfigurasi dan Lokalisasi Perangkat Lunak](#konfigurasi-dan-lokalisasi-perangkat-lunak)
 
 ## Bab 4: Kontrol Proses
 ### Komponen dari sebuah proses
@@ -565,3 +571,48 @@ Contoh percobaan:<br>
 
 ### NFSv4 ACLs
 ACL yang lebih baru dan lebih powerful, didukung oleh Linux dan FreeBSD. Memiliki fitur tambahan seperti default ACL untuk mengatur ACL file/direktori baru.
+
+## Bab 6: Instalasi dan Manajemen Perangkat lunak
+### Instalasi Sistem operasi
+Distribusi Linux dan FreeBSD memiliki prosedur instalasi dasar yang cukup mudah. Untuk mesin fisik, Anda dapat melakukan booting dari CD, DVD, atau USB drive. Untuk mesin virtual, Anda dapat melakukan booting dari file ISO. Menginstal sistem operasi dasar dari media lokal cukup sederhana berkat aplikasi GUI yang memandu Anda melalui prosesnya.
+
+### Instalasi dari Jaringan
+Jika Anda harus menginstal OS pada lebih dari satu komputer, Anda akan cepat mencapai batas pendekatan menggunakan media lokal. Proses ini memakan waktu, rentan kesalahan, dan membosankan karena harus mengulangi langkah yang sama berulang kali. Solusinya adalah menginstal OS dari server jaringan. Ini adalah praktik umum di pusat data dan lingkungan cloud.  
+
+Metode yang paling umum menggunakan **DHCP** dan **TFTP** untuk melakukan booting sistem tanpa media fisik. Sistem kemudian mengambil file instalasi OS dari server jaringan menggunakan **HTTP**, **FTP**, atau **NFS**. File instalasi bisa berada di server yang sama atau di server yang berbeda.  
+
+Kita dapat menyiapkan instalasi sepenuhnya otomatis melalui **PXE** (Preboot eXecution Environment). Skema ini adalah standar dari Intel yang memungkinkan sistem melakukan booting dari antarmuka jaringan.  
+
+PXE berfungsi seperti sistem operasi mini yang berada di ROM pada kartu jaringan. Ini mengekspos kemampuan jaringan melalui API standar yang digunakan oleh BIOS sistem. Kerjasama ini memungkinkan satu boot loader untuk melakukan netboot pada PC yang mendukung PXE tanpa harus menyediakan driver khusus untuk setiap kartu jaringan.
+
+### Linux Package Management Systems
+Dua format paket umum digunakan pada sistem Linux. Red Hat, CentOS, SUSE, Amazon Linux, dan beberapa distribusi lainnya menggunakan RPM. Debian dan Ubuntu menggunakan format .deb yang terpisah tetapi sama populernya. Kedua format ini secara fungsional serupa.
+
+Sistem pengemasan RPM dan .deb sekarang berfungsi sebagai alat manajemen konfigurasi dua lapis. Pada tingkat paling dasar adalah alat yang menginstal, menghapus, dan mengkueri paket: `rpm` untuk RPM dan `dpkg` untuk .deb.
+
+Di atas perintah-perintah ini adalah sistem yang tahu cara menemukan dan mengunduh paket dari internet, menganalisis ketergantungan antar-paket, dan memutakhirkan semua paket pada sistem. yum (Yellowdog Updater, Modified) bekerja dengan sistem RPM. APT (Advanced Package Tool) berasal dari dunia .deb tetapi bekerja dengan baik untuk paket .deb dan RPM.
+
+### High-Level Package Management
+Alat manajemen paket tingkat tinggi adalah yang paling sering Anda gunakan. Alat ini memungkinkan Anda menginstal, menghapus, dan memutakhirkan paket. Mereka juga memungkinkan Anda mencari paket dan menampilkan daftar paket yang terinstal di sistem Anda.
+- Package repositories
+Distributor Linux mengelola repositori perangkat lunak yang bekerja sama dengan sistem manajemen paket yang mereka pilih. Konfigurasi default untuk sistem manajemen paket biasanya mengarah ke satu atau lebih server web atau FTP terkenal yang dikendalikan oleh distributor.
+  - Sebuah release adalah snapshot yang konsisten dari kumpulan paket. 
+  - Sebuah komponen adalah subset perangkat lunak dalam suatu release. 
+  - Arsitektur mewakili kelas perangkat keras, dengan asumsi bahwa mesin dalam kelas arsitektur yang sama cukup mirip sehingga dapat menjalankan biner yang sama. Arsitektur adalah instance dari release, misalnya, arsitektur i386 dari release Fedora 20.
+
+- APT: Advanced Package Tool
+APT adalah sekumpulan alat untuk mengelola paket Debian. Ini adalah sistem manajemen paket yang paling banyak digunakan untuk sistem berbasis Debian. APT adalah kumpulan alat yang bekerja bersama untuk menyediakan sistem manajemen paket yang lengkap. Alat-alat tersebut adalah:
+  - apt-get: Alat baris perintah untuk menangani paket. Ini melakukan tugas manajemen paket seperti instalasi, penghapusan, dan pemutakhiran.
+  - apt-cache: Alat untuk mencari dan mengkueri cache paket APT.
+  - apt-file: Alat untuk mencari file di dalam paket.
+  - apt-show-versions: Alat untuk menampilkan versi paket.
+  - aptitude: Antarmuka tingkat tinggi untuk sistem manajemen paket. Ini dapat digunakan untuk melakukan sebagian besar tugas yang bisa dilakukan oleh apt-get, dan banyak lagi.
+  - apt-mirror: Alat yang memungkinkan Anda membuat mirror dari repositori paket.
+Aturan pertama dalam menggunakan APT pada sistem Ubuntu adalah mengabaikan keberadaan dselect, yang bertindak sebagai frontend untuk sistem paket Debian.
+
+- yum: Yellowdog Updater, Modified
+yum adalah manajer paket untuk sistem Linux yang kompatibel dengan RPM. Ini adalah alat tingkat tinggi untuk mengelola paket. Yum melakukan resolusi dependensi saat menginstal, memperbarui, dan menghapus paket. Ini dapat mengelola paket dari repositori yang terinstal, dan juga dapat melakukan operasi baris perintah pada paket individu.
+
+### Konfigurasi dan Lokalisasi Perangkat Lunak
+Mengadaptasi sistem ke lingkungan lokal (atau cloud) Anda adalah salah satu tantangan utama dalam administrasi sistem. Menangani masalah lokalisasi dengan cara yang terstruktur dan dapat direproduksi membantu menghindari terciptanya sistem "snowflake" yang sulit dipulihkan setelah insiden besar.
+
