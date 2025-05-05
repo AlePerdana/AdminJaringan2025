@@ -24,12 +24,16 @@ Percobaan ini bertujuan untuk menginstal dan mengonfigurasi dua layanan utama pa
 
 ## Daftar Isi
 
-1) [Instalasi dan Konfigurasi BIND9 (DNS Server)](#1-instalasi-dan-konfigurasi-bind9-dns-server)  
-2) [Instalasi dan Konfigurasi Apache2 (Web Server)](#2-instalasi-dan-konfigurasi-apache2-web-server)
+1) [Gambar Topologi Jaringan Internal](#1-gambar-topologi-jaringan-internal)  
+2) [Instalasi dan Konfigurasi BIND9 (DNS Server)](#2-instalasi-dan-konfigurasi-bind9-dns-server)  
+3) [Instalasi dan Konfigurasi Apache2 (Web Server)](#3-instalasi-dan-konfigurasi-apache2-web-server)
 
 ---
 
-## 1) Instalasi dan Konfigurasi BIND9 (DNS Server)
+## 1) Gambar Topologi Jaringan Internal
+![screenshot](assets/topologi.png)
+
+## 2) Instalasi dan Konfigurasi BIND9 (DNS Server)
 
 ### a) Instalasi BIND9
 
@@ -209,7 +213,7 @@ dig ns.kelompok2.home.
 
 ---
 
-## 2) Instalasi dan Konfigurasi Apache2 (Web Server)
+## 3) Instalasi dan Konfigurasi Apache2 (Web Server)
 
 ### a) Instalasi Apache2
 
